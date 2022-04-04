@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Quake3CharacterRotation : MonoBehaviour
+public class Quake3CharacterRotaion : MonoBehaviour
 {
     [SerializeField] private float _rotateSpeed;
     [SerializeField] private float _smoothRotationSpeed;

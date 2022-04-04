@@ -150,12 +150,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 145091774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85c6682172d0a014ea5c27bea7d42c67, type: 3}
+  m_Script: {fileID: 11500000, guid: bdec2b17979ab1e47b9761390f3d2e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateSpeed: 2
-  _smoothRotationSpeed: 10
-  _limitAngle: 75
+  _smoothRotationSpeed: 5
+  _limitAngle: 70
 --- !u!4 &145091776
 Transform:
   m_ObjectHideFlags: 0
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 145091774}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f15c53993b7c54b4fb600f635637a529, type: 3}
+  m_Script: {fileID: 11500000, guid: c40561e1750f96541b9fc3409a7ec9a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _character: {fileID: 145091776}
