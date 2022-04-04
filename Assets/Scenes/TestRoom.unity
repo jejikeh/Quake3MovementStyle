@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotateSpeed: 2
-  _smoothRotationSpeed: 5
+  _smoothRotationSpeed: 20
   _limitAngle: 70
 --- !u!4 &145091776
 Transform:
