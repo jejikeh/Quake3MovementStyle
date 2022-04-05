@@ -11,6 +11,7 @@ namespace Quake3MovementStyle
 
         private Vector3 _characterVelocity = Vector3.zero;
         private bool _isJump = false;
+        private bool _isCrouch = false;
 
 
         [System.Serializable]
@@ -29,6 +30,7 @@ namespace Quake3MovementStyle
         }
 
         [SerializeField] private _movementSettings _groundMovementSettings = new _movementSettings(0, 0, 0);
+        [SerializeField] private _movementSettings _crouchMovementSettings = new _movementSettings(0, 0, 0);
         [SerializeField] private _movementSettings _airMovementSettings = new _movementSettings(0, 0, 0);
         [SerializeField] private _movementSettings _strafeMovementSettings = new _movementSettings(0, 0, 0);
 
@@ -53,17 +55,33 @@ namespace Quake3MovementStyle
                 AirMove(characterTransform,directionInput.x,directionInput.z);
             }
             characterController.Move(_characterVelocity * Time.deltaTime);
-
         }
 
         public void Jump(bool isJump)
         {
-            if(isJump && !_isJump)
+            if(isJump && !_isJump) // If Button pressed and character not jumping
             {
                 _isJump = true;
             } else
             {
                 _isJump = false;
+            }
+        }
+
+        public void Crouch(bool isCrouch,CharacterController characterController)
+        {
+            if (isCrouch)
+            {
+                _isCrouch = true;
+                characterController.radius = 0.25f;
+                characterController.height = 0.5f;
+
+            }
+            else
+            {
+                _isCrouch = false;
+                characterController.radius = 0.5f;
+                characterController.height = 1f;
             }
         }
 
@@ -79,14 +97,13 @@ namespace Quake3MovementStyle
             Vector3 wishDirection = new Vector3(xInput, 0, zInput);
             wishDirection = characterTransform.TransformDirection(wishDirection);
             wishDirection.Normalize();
-
             float wishSpeed = wishDirection.magnitude;
-            wishSpeed *= _groundMovementSettings.MaxSpeed;
-            Accelerate(wishDirection, wishSpeed, _groundMovementSettings.Acceleration);
+            wishSpeed *=  _isCrouch? _crouchMovementSettings.MaxSpeed : _groundMovementSettings.MaxSpeed;
+            Accelerate(wishDirection, wishSpeed, _isCrouch? _crouchMovementSettings.Acceleration : _groundMovementSettings.Acceleration);
 
             _characterVelocity.y = -_gravity * Time.deltaTime; // Reset the jump force 
 
-            if (_isJump)
+            if (_isJump) // Jump only when on the ground
             {
                 _characterVelocity.y = _jumpForce;
                 _isJump = false;

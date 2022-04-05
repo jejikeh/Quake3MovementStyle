@@ -54,7 +54,14 @@ namespace Quake3MovementStyle
             {
                 _characterMovement.Jump(false);
             }
-
+            else if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                _characterMovement.Crouch(true, _characterController);
+            }
+            else if (Input.GetKeyUp(KeyCode.LeftControl))
+            {
+                _characterMovement.Crouch(false, _characterController);
+            }
 
             if (_characterController.isGrounded)
             {

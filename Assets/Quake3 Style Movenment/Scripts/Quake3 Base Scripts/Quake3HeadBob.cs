@@ -9,6 +9,7 @@ namespace Quake3MovementStyle
     {
 
         private float _timer;
+        [Header("Head bob")]
         [SerializeField] private float _headBobForceRun;
         [SerializeField] private float _headBobForceIdle;
 
@@ -22,7 +23,12 @@ namespace Quake3MovementStyle
             {
                 _timer += Time.deltaTime * _headBobSpeedRun;
                 cameraTransform.localPosition = new Vector3(0 + Mathf.Sin(_timer/2) * _headBobForceRun, 0 + Mathf.Sin(_timer) * _headBobForceRun, cameraTransform.localPosition.z);
-            } else
+                /*
+                var xQuaternion = Quaternion.AngleAxis(cameraTransform.localRotation.z * Mathf.Sin(_timer), Vector3.up);
+                cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, xQuaternion, _timer * Time.deltaTime);
+                */
+            }
+            else
             {
                 _timer += Time.deltaTime * _headBobSpeedIdle;
                 cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, 0 + Mathf.Sin(_timer) * _headBobForceIdle, cameraTransform.localPosition.z);
