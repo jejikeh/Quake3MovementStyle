@@ -40,7 +40,7 @@ namespace Quake3MovementStyle
         {
             if (characterController.isGrounded)
             {
-                GroundMove(characterTransform, directionInput.x, directionInput.z);
+                GroundMove(characterController,characterTransform, directionInput.x, directionInput.z);
             } else
             {
                 AirMove();
@@ -49,9 +49,9 @@ namespace Quake3MovementStyle
 
         }
 
-        private void GroundMove(Transform characterTransform,float xInput, float zInput)
+        private void GroundMove(CharacterController characterController, Transform characterTransform,float xInput, float zInput)
         {
-            ApplyFriction(1.0f);
+            ApplyFriction(characterController,1.0f);
             Vector3 wishDirection = new Vector3(xInput, 0, zInput);
             wishDirection = characterTransform.TransformDirection(wishDirection);
 
@@ -84,7 +84,7 @@ namespace Quake3MovementStyle
             _characterVelocity.z += accelerationSpeed * targetDirection.z;
         }
 
-        private void ApplyFriction(float t)
+        private void ApplyFriction(CharacterController characterController,float t)
         {
 
             //_characterVelocity.y = 0;
@@ -92,8 +92,11 @@ namespace Quake3MovementStyle
             float drop = 0;
             // Checking if grounded
 
-            float control = speed < _groundMovementSettings.Deceleration ? _groundMovementSettings.Deceleration : speed;
-            drop = control * _friction * t * Time.deltaTime;
+            if (characterController.isGrounded)
+            {
+                float control = speed < _groundMovementSettings.Deceleration ? _groundMovementSettings.Deceleration : speed;
+                drop = control * _friction * t * Time.deltaTime;
+            }
 
 
             float newSpeed = speed - drop;
