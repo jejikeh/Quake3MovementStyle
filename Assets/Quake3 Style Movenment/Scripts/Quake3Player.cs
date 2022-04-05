@@ -6,6 +6,7 @@ namespace Quake3MovementStyle
 
     [RequireComponent(typeof(Quake3Rotation))]
     [RequireComponent(typeof(Quake3Movement))]
+    [RequireComponent(typeof(Quake3HeadBob))]
     [RequireComponent(typeof(CharacterController))]
     public class Quake3Player : MonoBehaviour
     {
@@ -13,7 +14,7 @@ namespace Quake3MovementStyle
 
 
         [Header("Camera")]
-        [SerializeField] private Transform _camera;
+        [SerializeField] private Transform _cameraTransform;
         [SerializeField] private Quake3Rotation _characterRotation;
         private Vector2 _mouseInput; // Mouse 2D Input Vector
 
@@ -21,6 +22,7 @@ namespace Quake3MovementStyle
         [Header("Movement")]
         [SerializeField] private CharacterController _characterController;
         [SerializeField] private Quake3Movement _characterMovement;
+        [SerializeField] private Quake3HeadBob _characterHeadBob;
         private Vector3 _keyboardInput;
 
 
@@ -30,18 +32,34 @@ namespace Quake3MovementStyle
 
             _characterRotation = GetComponent<Quake3Rotation>();
             _characterRotation.SetCursorLock(true);
+
+            _characterHeadBob = GetComponent<Quake3HeadBob>();
         }
 
 
         void Update()
         {
             _mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // Mouse Input Vector
-            _characterRotation.LookRotation(_characterTransform, _camera,_mouseInput.x,_mouseInput.y);
+            _characterRotation.LookRotation(_characterTransform, _cameraTransform,_mouseInput.x,_mouseInput.y);
+
 
             _keyboardInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             _characterMovement.Movement(_characterController, _characterTransform, _keyboardInput);
-            
 
+            if (Input.GetButtonDown("Jump"))
+            {
+                _characterMovement.Jump(true);
+            } 
+            else if (Input.GetButtonUp("Jump"))
+            {
+                _characterMovement.Jump(false);
+            }
+
+
+            if (_characterController.isGrounded)
+            {
+                _characterHeadBob.HeadBob(_cameraTransform, _characterMovement._speed);
+            }
         }
     }
 }
