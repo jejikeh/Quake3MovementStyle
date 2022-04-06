@@ -58,14 +58,14 @@ namespace Quake3MovementStyle
         {
             if (_characterController.isGrounded)
             {
-                _characterHeadBob.HeadBob(_cameraTransform, _characterMovement._speed);
+                _characterHeadBob.HeadBob(_cameraTransform, _characterMovement.Speed);
             }
         }
 
         private void ControlCharacter()
         {
             _mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // Mouse Input Vector
-            _characterRotation.LookRotation(_characterTransform, _cameraTransform, _mouseInput.x, _mouseInput.y);
+            _characterRotation.LookRotation(_characterTransform, _cameraTransform, _mouseInput.x, _mouseInput.y,transform.InverseTransformVector(_characterMovement.Speed));
 
 
             _keyboardInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));

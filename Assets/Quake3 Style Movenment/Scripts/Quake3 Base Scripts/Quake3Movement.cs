@@ -46,7 +46,7 @@ namespace Quake3MovementStyle
 
 
         // Used to get speed for head bobing
-        public Vector3 _speed { get { return _characterVelocity;  } }
+        public Vector3 Speed { get { return _characterVelocity;  } }
 
         public void Movement(CharacterController characterController,Transform characterTransform ,Vector3 directionInput)
         {

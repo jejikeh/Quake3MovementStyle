@@ -19,6 +19,7 @@ namespace Quake3MovementStyle
         [SerializeField] private float _headBobSpeedIdle;
 
 
+        [SerializeField] private Quake3Rotation _characterRotation;
         public void HeadBob(Transform cameraTransform, Vector3 characterVelocity){
 
             if(Mathf.Abs(characterVelocity.x) > 0.1f || Mathf.Abs(characterVelocity.z) > 0.1f)
@@ -28,8 +29,10 @@ namespace Quake3MovementStyle
                 //cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, 0 + Mathf.Sin(_timer) * _headBobForceRun, cameraTransform.localPosition.z);
 
                 /*
-                var xQuaternion = Quaternion.AngleAxis(cameraTransform.localRotation.z * Mathf.Sin(_timer), Vector3.up);
-                cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, xQuaternion, _timer * Time.deltaTime);
+                var xQuaternion = Quaternion.AngleAxis(characterVelocity.x, Vector3.up);
+                var zQuaternion = Quaternion.AngleAxis(characterVelocity.z, Vector3.up);
+                cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, xQuaternion , _timer * Time.deltaTime);
+                cameraTransform.localRotation = Quaternion.Slerp(cameraTransform.localRotation, zQuaternion, _timer * Time.deltaTime);
                 */
             }
             else
@@ -37,6 +40,8 @@ namespace Quake3MovementStyle
                 _timer += Time.deltaTime * _headBobSpeedIdle;
                 cameraTransform.localPosition = new Vector3(cameraTransform.localPosition.x, 0 + Mathf.Sin(_timer) * _headBobForceIdle, cameraTransform.localPosition.z);
             }
+
+            //_characterRotation.LookRotation(cameraTransform, cameraTransform, characterVelocity.z, characterVelocity.x);
         }
-}
+    }
 }

@@ -48,7 +48,7 @@ namespace Quake3MovementStyle
                 pickObject.GetComponent<Rigidbody>().drag = 10;
                 pickObject.GetComponent<Rigidbody>().freezeRotation = true;
                 pickObject.GetComponent<Rigidbody>().isKinematic = true;
-
+                pickObject.GetComponent<BoxCollider>().isTrigger = true;
                 pickObject.parent = _holdTransform;
                 _holdedObject = pickObject;
             }
@@ -60,7 +60,7 @@ namespace Quake3MovementStyle
             _holdedObject.GetComponent<Rigidbody>().drag = 1;
             _holdedObject.GetComponent<Rigidbody>().freezeRotation = false;
             _holdedObject.GetComponent<Rigidbody>().isKinematic = false;
-
+            _holdedObject.GetComponent<BoxCollider>().isTrigger = false;
             _holdedObject.parent = null;
             _holdedObject = null;
         }

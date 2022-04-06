@@ -139,6 +139,7 @@ MonoBehaviour:
   _headBobForceIdle: 0.05
   _headBobSpeedRun: 10
   _headBobSpeedIdle: 3
+  _characterRotation: {fileID: 791834039351323563}
 --- !u!114 &941544165874113222
 MonoBehaviour:
   m_ObjectHideFlags: 0
