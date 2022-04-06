@@ -266,6 +266,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Q_Player
       objectReference: {fileID: 0}
+    - target: {fileID: 791834039351323600, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
+      propertyPath: _headBobForceRun
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 791834039351323600, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
+      propertyPath: _headBobForceIdle
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 791834039351323604, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -309,6 +317,10 @@ PrefabInstance:
     - target: {fileID: 791834039351323604, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 791834039351323605, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
+      propertyPath: _isHeadBobing
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
