@@ -8,7 +8,7 @@ namespace Quake3MovementStyle
     //[RequireComponent(typeof(CharacterController))]
     public class Quake3Movement : MonoBehaviour
     {
-
+        // System variables
         private Vector3 _characterVelocity = Vector3.zero;
         private bool _isJump = false;
         private bool _isCrouch = false;
@@ -38,11 +38,14 @@ namespace Quake3MovementStyle
 
 
 
-        [SerializeField] private float _friction;
+        [SerializeField] private float _frictionRunning;
+        [SerializeField] private float _frictionCrouch;
         [SerializeField] private float _gravity;
         [SerializeField] private float _jumpForce;
-        [SerializeField] private float _airControl = 0.3f;
+        [SerializeField] private float _airControl;
 
+
+        // Used to get speed for head bobing
         public Vector3 _speed { get { return _characterVelocity;  } }
 
         public void Movement(CharacterController characterController,Transform characterTransform ,Vector3 directionInput)
@@ -57,9 +60,9 @@ namespace Quake3MovementStyle
             characterController.Move(_characterVelocity * Time.deltaTime);
         }
 
-        public void Jump(bool isJump)
+        public void Jump(bool isJumpPressed)
         {
-            if(isJump && !_isJump) // If Button pressed and character not jumping
+            if(isJumpPressed && !_isJump) // If Button pressed and character not jumping
             {
                 _isJump = true;
             } else
@@ -68,9 +71,9 @@ namespace Quake3MovementStyle
             }
         }
 
-        public void Crouch(bool isCrouch,CharacterController characterController)
+        public void Crouch(bool isCrouchPressed,CharacterController characterController)
         {
-            if (isCrouch)
+            if (isCrouchPressed)
             {
                 _isCrouch = true;
                 characterController.radius = 0.25f;
@@ -89,14 +92,18 @@ namespace Quake3MovementStyle
         {
             if (!_isJump)
             {
-                ApplyFriction(characterController, 1.0f);
+                ApplyFriction(characterController, 1.0f); // Apply friction only on the ground
+            }
+            else if (_isCrouch)
+            {
+                ApplyFriction(characterController, 0.01f);
             }else
             {
-                ApplyFriction(characterController,0);
+                ApplyFriction(characterController, 0);
             }
             Vector3 wishDirection = new Vector3(xInput, 0, zInput);
-            wishDirection = characterTransform.TransformDirection(wishDirection);
             wishDirection.Normalize();
+            wishDirection = characterTransform.TransformDirection(wishDirection); // from local to global
             float wishSpeed = wishDirection.magnitude;
             wishSpeed *=  _isCrouch? _crouchMovementSettings.MaxSpeed : _groundMovementSettings.MaxSpeed;
             Accelerate(wishDirection, wishSpeed, _isCrouch? _crouchMovementSettings.Acceleration : _groundMovementSettings.Acceleration);
@@ -130,14 +137,14 @@ namespace Quake3MovementStyle
                 acceleration = _airMovementSettings.Acceleration;
             }
 
-            if(xInput != 0 && zInput == 0)
+            if(xInput == 0 && zInput != 0)
             {
                 if(wishSpeed > _strafeMovementSettings.MaxSpeed)
                 {
                     wishSpeed = _strafeMovementSettings.MaxSpeed;
                 }
                 acceleration = _strafeMovementSettings.MaxSpeed;
-            }
+            }   
 
             Accelerate(wishDir, wishSpeed, acceleration);
             if(_airControl > 0)
@@ -214,8 +221,16 @@ namespace Quake3MovementStyle
 
             if (characterController.isGrounded)
             {
-                float control = speed < _groundMovementSettings.Deceleration ? _groundMovementSettings.Deceleration : speed;
-                newSpeed = speed - (control * _friction * t * Time.deltaTime);
+                float control;
+                if (!_isCrouch)
+                {
+                    control = speed < _groundMovementSettings.Deceleration ? _groundMovementSettings.Deceleration : speed;
+                    newSpeed = speed - (control * _frictionRunning * t * Time.deltaTime);
+                } else
+                {
+                    control = speed < _crouchMovementSettings.Deceleration ? _crouchMovementSettings.Deceleration : speed;
+                    newSpeed = speed - (control * _frictionCrouch * t * Time.deltaTime);
+                }
             }
 
             if (newSpeed < 0)

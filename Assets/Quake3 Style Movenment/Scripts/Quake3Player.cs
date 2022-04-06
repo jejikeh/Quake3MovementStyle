@@ -16,6 +16,7 @@ namespace Quake3MovementStyle
         [Header("Camera")]
         [SerializeField] private Transform _cameraTransform;
         [SerializeField] private Quake3Rotation _characterRotation;
+        [SerializeField] private bool _isHeadBobing;
         private Vector2 _mouseInput; // Mouse 2D Input Vector
 
 
@@ -30,17 +31,37 @@ namespace Quake3MovementStyle
         {
             _characterController = GetComponent<CharacterController>();
 
+            _characterHeadBob = GetComponent<Quake3HeadBob>();
+            _characterMovement = GetComponent<Quake3Movement>();
             _characterRotation = GetComponent<Quake3Rotation>();
+
             _characterRotation.SetCursorLock(true);
 
-            _characterHeadBob = GetComponent<Quake3HeadBob>();
         }
 
 
         void Update()
         {
+            ControlCharacter(); // allow user to control the character
+
+            if (_isHeadBobing) // enabling head bobing
+            {
+                EnableHeadBob();
+            }
+        }
+
+        private void EnableHeadBob()
+        {
+            if (_characterController.isGrounded)
+            {
+                _characterHeadBob.HeadBob(_cameraTransform, _characterMovement._speed);
+            }
+        }
+
+        private void ControlCharacter()
+        {
             _mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // Mouse Input Vector
-            _characterRotation.LookRotation(_characterTransform, _cameraTransform,_mouseInput.x,_mouseInput.y);
+            _characterRotation.LookRotation(_characterTransform, _cameraTransform, _mouseInput.x, _mouseInput.y);
 
 
             _keyboardInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -49,7 +70,7 @@ namespace Quake3MovementStyle
             if (Input.GetButtonDown("Jump"))
             {
                 _characterMovement.Jump(true);
-            } 
+            }
             else if (Input.GetButtonUp("Jump"))
             {
                 _characterMovement.Jump(false);
@@ -61,11 +82,6 @@ namespace Quake3MovementStyle
             else if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 _characterMovement.Crouch(false, _characterController);
-            }
-
-            if (_characterController.isGrounded)
-            {
-                _characterHeadBob.HeadBob(_cameraTransform, _characterMovement._speed);
             }
         }
     }

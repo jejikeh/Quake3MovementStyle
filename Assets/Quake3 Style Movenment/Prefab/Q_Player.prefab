@@ -69,6 +69,7 @@ MonoBehaviour:
   _characterTransform: {fileID: 791834039351323604}
   _cameraTransform: {fileID: 791834040168999520}
   _characterRotation: {fileID: 791834039351323563}
+  _isHeadBobing: 0
   _characterController: {fileID: 791834039351323607}
   _characterMovement: {fileID: 791834039351323606}
   _characterHeadBob: {fileID: 791834039351323600}
@@ -104,9 +105,9 @@ MonoBehaviour:
     Acceleration: 10
     Deceleration: 3
   _crouchMovementSettings:
-    MaxSpeed: 4
-    Acceleration: 6
-    Deceleration: 1
+    MaxSpeed: 2
+    Acceleration: 2
+    Deceleration: 2
   _airMovementSettings:
     MaxSpeed: 6
     Acceleration: 2
@@ -115,7 +116,8 @@ MonoBehaviour:
     MaxSpeed: 2
     Acceleration: 60
     Deceleration: 60
-  _friction: 6
+  _frictionRunning: 6
+  _frictionCrouch: 2
   _gravity: 15
   _jumpForce: 5
   _airControl: 0.3
@@ -310,7 +312,7 @@ BoxCollider:
   m_GameObject: {fileID: 791834040352052469}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
