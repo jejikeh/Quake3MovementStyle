@@ -102,8 +102,8 @@ namespace Quake3MovementStyle
                 ApplyFriction(characterController, 0);
             }
             Vector3 wishDirection = new Vector3(xInput, 0, zInput);
-            wishDirection.Normalize();
             wishDirection = characterTransform.TransformDirection(wishDirection); // from local to global
+            wishDirection.Normalize();
             float wishSpeed = wishDirection.magnitude;
             wishSpeed *=  _isCrouch? _crouchMovementSettings.MaxSpeed : _groundMovementSettings.MaxSpeed;
             Accelerate(wishDirection, wishSpeed, _isCrouch? _crouchMovementSettings.Acceleration : _groundMovementSettings.Acceleration);
