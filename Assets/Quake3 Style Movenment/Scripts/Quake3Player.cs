@@ -7,6 +7,7 @@ namespace Quake3MovementStyle
     [RequireComponent(typeof(Quake3Rotation))]
     [RequireComponent(typeof(Quake3Movement))]
     [RequireComponent(typeof(Quake3HeadBob))]
+    [RequireComponent(typeof(Quake3HoldAndDropObjects))]
     [RequireComponent(typeof(CharacterController))]
     public class Quake3Player : MonoBehaviour
     {
@@ -26,6 +27,8 @@ namespace Quake3MovementStyle
         [SerializeField] private Quake3HeadBob _characterHeadBob;
         private Vector3 _keyboardInput;
 
+        [SerializeField] private Quake3HoldAndDropObjects _quake3HoldAndDropObjects;
+
 
         private void Start()
         {
@@ -34,6 +37,7 @@ namespace Quake3MovementStyle
             _characterHeadBob = GetComponent<Quake3HeadBob>();
             _characterMovement = GetComponent<Quake3Movement>();
             _characterRotation = GetComponent<Quake3Rotation>();
+            _quake3HoldAndDropObjects = GetComponent<Quake3HoldAndDropObjects>();
 
             _characterRotation.SetCursorLock(true);
 
@@ -82,6 +86,9 @@ namespace Quake3MovementStyle
             else if (Input.GetKeyUp(KeyCode.LeftControl))
             {
                 _characterMovement.Crouch(false, _characterController);
+            }else if (Input.GetKeyDown(KeyCode.E))
+            {
+                _quake3HoldAndDropObjects.CheckForPickUpObject();
             }
         }
     }

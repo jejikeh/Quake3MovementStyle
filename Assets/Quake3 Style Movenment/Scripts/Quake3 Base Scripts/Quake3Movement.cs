@@ -170,7 +170,7 @@ namespace Quake3MovementStyle
             _characterVelocity.Normalize();
 
             float dot = Vector3.Dot(_characterVelocity, targetDir);
-            float k = 32;
+            float k = 1; 
             k *= _airControl * dot * dot * Time.deltaTime;
 
             if(dot > 0)

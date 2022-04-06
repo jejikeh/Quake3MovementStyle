@@ -8,13 +8,35 @@ namespace Quake3MovementStyle
     {
         [SerializeField] private float _pickUpRange = 5f;
         [SerializeField] private Transform _holdTransform;
+        [SerializeField] private Transform _holdedObject;
 
         public void CheckForPickUpObject()
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, _pickUpRange))
+            
+            
+            if (_holdedObject == null)
             {
-                PickUpObject(hit.transform.transform);
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, transform.forward, out hit, _pickUpRange))
+                {
+                    PickUpObject(hit.transform.transform);
+                }
+            } else
+            {
+                DropObject();
+            }
+
+            if (_holdedObject != null)
+            {
+                MovePickUpObject();
+            }
+        }
+
+        private void MovePickUpObject()
+        {
+            if(Vector3.Distance(_holdedObject.transform.position, _holdTransform.position) > 0.1f)
+            {
+                _holdedObject.position = _holdTransform.position;
             }
         }
 
@@ -22,10 +44,25 @@ namespace Quake3MovementStyle
         {
             if (pickObject.GetComponent<Rigidbody>())
             {
-                Rigidbody rigidbodyPickObject = pickObject.GetComponent<Rigidbody>();
+                pickObject.GetComponent<Rigidbody>().useGravity = false;
+                pickObject.GetComponent<Rigidbody>().drag = 10;
+                pickObject.GetComponent<Rigidbody>().freezeRotation = true;
+                pickObject.GetComponent<Rigidbody>().isKinematic = true;
 
-                rigidbodyPickObject.useGravity = false;
+                pickObject.parent = _holdTransform;
+                _holdedObject = pickObject;
             }
+        }
+
+        private void DropObject()
+        {
+            _holdedObject.GetComponent<Rigidbody>().useGravity = true;
+            _holdedObject.GetComponent<Rigidbody>().drag = 1;
+            _holdedObject.GetComponent<Rigidbody>().freezeRotation = false;
+            _holdedObject.GetComponent<Rigidbody>().isKinematic = false;
+
+            _holdedObject.parent = null;
+            _holdedObject = null;
         }
     }
 }
