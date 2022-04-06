@@ -6,9 +6,9 @@ namespace Quake3MovementStyle
 {
     public class Quake3HoldAndDropObjects : MonoBehaviour
     {
-        [SerializeField] private float _pickUpRange = 5f;
+        [SerializeField] private float _pickUpRange = 2f;
         [SerializeField] private Transform _holdTransform;
-        [SerializeField] private Transform _holdedObject;
+        private Transform _holdedObject;
 
         public void CheckForPickUpObject()
         {
