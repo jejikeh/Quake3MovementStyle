@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Quake3MovementStyle
 {
-    //[RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(CharacterController))]
     public class Quake3Movement : MonoBehaviour
     {
         // System variables
@@ -44,9 +44,14 @@ namespace Quake3MovementStyle
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _airControl;
 
+        [Header("Crouch")]
+        [SerializeField] private float _standHeight;
+        [SerializeField] private float _crouchHeight;
+
 
         // Used to get speed for head bobing
         public Vector3 Speed { get { return _characterVelocity;  } }
+
 
         public void Movement(CharacterController characterController,Transform characterTransform ,Vector3 directionInput)
         {
@@ -58,6 +63,7 @@ namespace Quake3MovementStyle
                 AirMove(characterTransform,directionInput.x,directionInput.z);
             }
             characterController.Move(_characterVelocity * Time.deltaTime);
+
         }
 
         public void Jump(bool isJumpPressed)
@@ -71,20 +77,37 @@ namespace Quake3MovementStyle
             }
         }
 
-        public void Crouch(bool isCrouchPressed,CharacterController characterController)
+        private bool isCeiling(Transform characterTransform) // check for ceiling.
+        {
+            // create a raycast up to check if character can stand up
+            bool raycastHit = Physics.Raycast(characterTransform.localPosition, Vector3.up, _crouchHeight + 0.2f);
+            
+            if(raycastHit) // if is a collider up to a character
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        public void Crouch(bool isCrouchPressed,CharacterController characterController, Transform characterTransform)
         {
             if (isCrouchPressed)
             {
                 _isCrouch = true;
-                characterController.radius = 0.25f;
-                characterController.height = 0.5f;
+                characterController.radius = _crouchHeight/2;
+                characterController.height = _crouchHeight;
 
             }
             else
             {
-                _isCrouch = false;
-                characterController.radius = 0.5f;
-                characterController.height = 1f;
+                if (!isCeiling(characterTransform))
+                {
+                    _isCrouch = false;
+                    characterController.radius = _standHeight/2;
+                    characterController.height = _standHeight;
+                }
             }
         }
 
@@ -240,7 +263,6 @@ namespace Quake3MovementStyle
             }
             newSpeed /= speed;
             _characterVelocity.x *= newSpeed;
-            //_characterVelocity.y *= newSpeed;
             _characterVelocity.z *= newSpeed;
 
         }

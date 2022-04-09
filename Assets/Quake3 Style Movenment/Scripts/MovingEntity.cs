@@ -50,10 +50,15 @@ namespace Quake3MovementStyle
             }
         }
 
+
+        // --- Crouch System --- 
         protected void isCharacterCrouch(bool crouch)
         {
-            _characterMovement.Crouch(crouch,_characterController);
+            _characterMovement.Crouch(crouch,_characterController,_characterTransform);
         }
+
+
+        // --- Jump System ---
         protected void isCharacterJump(bool jump)
         {
             _characterMovement.Jump(jump);
@@ -66,5 +71,7 @@ namespace Quake3MovementStyle
                 _characterHeadBob.HeadBob(_characterTransform, _cameraTransform, transform.InverseTransformVector(_characterMovement.Speed)); // speed from world to local
             }
         }
+
+        
     }
 }
