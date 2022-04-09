@@ -102,7 +102,7 @@ namespace Quake3MovementStyle
             }
             else
             {
-                if (!isCeiling(characterTransform))
+                if(!isCeiling(characterTransform)) // if up to character is not a ceiling
                 {
                     _isCrouch = false;
                     characterController.radius = _standHeight/2;
@@ -128,7 +128,7 @@ namespace Quake3MovementStyle
             wishDirection = characterTransform.TransformDirection(wishDirection); // from local to global
             wishDirection.Normalize();
             float wishSpeed = wishDirection.magnitude;
-            wishSpeed *=  _isCrouch? _crouchMovementSettings.MaxSpeed : _groundMovementSettings.MaxSpeed;
+            wishSpeed *=  _isCrouch? _crouchMovementSettings.MaxSpeed : _groundMovementSettings.MaxSpeed; // change max speed on crouch and standing
             Accelerate(wishDirection, wishSpeed, _isCrouch? _crouchMovementSettings.Acceleration : _groundMovementSettings.Acceleration);
 
             _characterVelocity.y = -_gravity * Time.deltaTime; // Reset the jump force 
@@ -137,9 +137,7 @@ namespace Quake3MovementStyle
             {
                 _characterVelocity.y = _jumpForce;
                 _isJump = false;
-            }
-
-            
+            }            
         }
 
         private void AirMove(Transform _characterTransform,float xInput, float zInput)
