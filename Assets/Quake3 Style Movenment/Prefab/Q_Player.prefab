@@ -87,9 +87,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdec2b17979ab1e47b9761390f3d2e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rotateSpeed: 2
+  _rotateSpeed: 1
   _smoothRotationSpeed: 20
   _limitAngle: 70
+  _rotateMovementSpeed: 1
 --- !u!114 &791834039351323606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +140,6 @@ MonoBehaviour:
   _headBobForceIdle: 0.05
   _headBobSpeedRun: 10
   _headBobSpeedIdle: 3
-  _characterRotation: {fileID: 791834039351323563}
 --- !u!114 &941544165874113222
 MonoBehaviour:
   m_ObjectHideFlags: 0

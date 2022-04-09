@@ -4,27 +4,10 @@ using UnityEngine;
 namespace Quake3MovementStyle
 {
 
-    [RequireComponent(typeof(Quake3Rotation))]
-    [RequireComponent(typeof(Quake3Movement))]
-    [RequireComponent(typeof(Quake3HeadBob))]
     [RequireComponent(typeof(Quake3HoldAndDropObjects))]
-    [RequireComponent(typeof(CharacterController))]
-    public class Quake3Player : MonoBehaviour
+    public class Quake3Player : MovingEntity
     {
-        [SerializeField] private Transform _characterTransform;
-
-
-        [Header("Camera")]
-        [SerializeField] private Transform _cameraTransform;
-        [SerializeField] private Quake3Rotation _characterRotation;
-        [SerializeField] private bool _isHeadBobing;
         private Vector2 _mouseInput; // Mouse 2D Input Vector
-
-
-        [Header("Movement")]
-        [SerializeField] private CharacterController _characterController;
-        [SerializeField] private Quake3Movement _characterMovement;
-        [SerializeField] private Quake3HeadBob _characterHeadBob;
         private Vector3 _keyboardInput;
 
         [SerializeField] private Quake3HoldAndDropObjects _quake3HoldAndDropObjects;
@@ -32,11 +15,6 @@ namespace Quake3MovementStyle
 
         private void Start()
         {
-            _characterController = GetComponent<CharacterController>();
-
-            _characterHeadBob = GetComponent<Quake3HeadBob>();
-            _characterMovement = GetComponent<Quake3Movement>();
-            _characterRotation = GetComponent<Quake3Rotation>();
             _quake3HoldAndDropObjects = GetComponent<Quake3HoldAndDropObjects>();
 
             _characterRotation.SetCursorLock(true);
@@ -46,49 +24,40 @@ namespace Quake3MovementStyle
 
         void Update()
         {
-            ControlCharacter(); // allow user to control the character
-
-            if (_isHeadBobing) // enabling head bobing
-            {
-                EnableHeadBob();
-            }
-        }
-
-        private void EnableHeadBob()
-        {
-            if (_characterController.isGrounded)
-            {
-                _characterHeadBob.HeadBob(_cameraTransform, _characterMovement.Speed);
-            }
-        }
-
-        private void ControlCharacter()
-        {
-            _mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y")); // Mouse Input Vector
-            _characterRotation.LookRotation(_characterTransform, _cameraTransform, _mouseInput.x, _mouseInput.y,transform.InverseTransformVector(_characterMovement.Speed));
+            // --- Rotation
+            _mouseInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            ControlCharacterLookRotation(_mouseInput.x, _mouseInput.y);
 
 
-            _keyboardInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            _characterMovement.Movement(_characterController, _characterTransform, _keyboardInput);
+            // Movement
+            _keyboardInput = new Vector3(Input.GetAxisRaw("Horizontal"), 0 , Input.GetAxisRaw("Vertical"));
+            ControlCharacterMovement(_keyboardInput);
 
+
+            // --- Jumping Event ---
             if (Input.GetButtonDown("Jump"))
             {
-                _characterMovement.Jump(true);
+                isCharacterJump(true);
             }
             else if (Input.GetButtonUp("Jump"))
             {
-                _characterMovement.Jump(false);
+                isCharacterJump(false);
             }
-            else if (Input.GetKeyDown(KeyCode.LeftControl))
+
+            // --- Crouch Event ---
+            if (Input.GetKeyDown(KeyCode.LeftControl))
             {
-                _characterMovement.Crouch(true, _characterController);
+                isCharacterCrouch(true);
             }
             else if (Input.GetKeyUp(KeyCode.LeftControl))
             {
-                _characterMovement.Crouch(false, _characterController);
-            }else if (Input.GetKeyDown(KeyCode.E))
+                isCharacterCrouch(false);
+            }
+
+            // -- Pick up Event
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                _quake3HoldAndDropObjects.CheckForPickUpObject();
+                _quake3HoldAndDropObjects.CheckForPickUpObject(transform); // pick up objects
             }
         }
     }

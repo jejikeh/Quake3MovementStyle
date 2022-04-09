@@ -115,6 +115,7 @@ namespace Quake3MovementStyle
                 _characterVelocity.y = _jumpForce;
                 _isJump = false;
             }
+
             
         }
 

@@ -10,14 +10,14 @@ namespace Quake3MovementStyle
         [SerializeField] private Transform _holdTransform;
         private Transform _holdedObject;
 
-        public void CheckForPickUpObject()
+        public void CheckForPickUpObject(Transform cameraTransform)
         {
             
             
             if (_holdedObject == null)
             {
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, transform.forward, out hit, _pickUpRange))
+                if (Physics.Raycast(cameraTransform.position, transform.forward, out hit, _pickUpRange))
                 {
                     PickUpObject(hit.transform.transform);
                 }
