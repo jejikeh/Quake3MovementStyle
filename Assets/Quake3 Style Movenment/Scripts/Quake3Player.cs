@@ -45,16 +45,16 @@ namespace Quake3MovementStyle
             }
 
             // --- Crouch Event ---
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetButton("Crouch"))
             {
                 isCharacterCrouch(true);
             }
-            else if (Input.GetKeyUp(KeyCode.LeftControl))
+            else
             {
                 isCharacterCrouch(false);
             }
 
-            // -- Pick up Event
+            // --- Pick up Event ---
             if (Input.GetKeyDown(KeyCode.E))
             {
                 _quake3HoldAndDropObjects.CheckForPickUpObject(transform); // pick up objects

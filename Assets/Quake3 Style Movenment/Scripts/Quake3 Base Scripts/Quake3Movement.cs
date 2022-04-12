@@ -63,7 +63,6 @@ namespace Quake3MovementStyle
                 AirMove(characterTransform,directionInput.x,directionInput.z);
             }
             characterController.Move(_characterVelocity * Time.deltaTime);
-
         }
 
         public void Jump(bool isJumpPressed)
@@ -98,14 +97,13 @@ namespace Quake3MovementStyle
                 _isCrouch = true;
                 characterController.radius = _crouchHeight/2;
                 characterController.height = _crouchHeight;
-
             }
             else
             {
-                if(!isCeiling(characterTransform)) // if up to character is not a ceiling
+                if (!isCeiling(characterTransform))
                 {
                     _isCrouch = false;
-                    characterController.radius = _standHeight/2;
+                    characterController.radius = _standHeight / 2;
                     characterController.height = _standHeight;
                 }
             }
