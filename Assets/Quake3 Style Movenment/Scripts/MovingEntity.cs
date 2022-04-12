@@ -22,7 +22,7 @@ namespace Quake3MovementStyle
 
 
         [Header("Movement")]
-        [SerializeField] private CharacterController _characterController;
+        [SerializeField] private CharacterController _characterController; // Delegirovanie
         [SerializeField] private Quake3Movement _characterMovement;
         [SerializeField] private Quake3HeadBob _characterHeadBob;
 
