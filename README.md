@@ -6,7 +6,7 @@
 
 [quake3-movement-for-unity](https://github.com/IsaiahKelly/quake3-movement-for-unity/blob/master/Quake3Movement/Scripts/Q3PlayerController.cs)
 
-Так же при написании использовались следующие материалы :
+При написании использовались следующие материалы :
 
 [Quake3 Source code](https://github.com/id-Software/Quake/blob/master/WinQuake/sv_user.c#L190)
  
