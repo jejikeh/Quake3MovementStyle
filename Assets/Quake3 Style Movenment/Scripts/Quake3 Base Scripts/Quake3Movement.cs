@@ -53,11 +53,26 @@ namespace Quake3MovementStyle
         public Vector3 Speed { get { return _characterVelocity;  } }
 
 
+
         public void Movement(CharacterController characterController,Transform characterTransform ,Vector3 directionInput)
         {
-            if (characterController.isGrounded)
+            if (characterController.isGrounded) // Combination with default unity method and Custom
             {
-                GroundMove(characterController,characterTransform, directionInput.x, directionInput.z);
+                /*
+                 * If Unity method is true, check custom.
+                 * Custom method ( IsCharacterGrounded ) draw ray to ground from center. It return true only when 100% character on the ground
+                 * 
+                 */
+
+                if (IsCharacterGrounded(characterTransform))
+                {
+                    // If character 100% on the ground
+                    GroundMove(characterController,characterTransform, directionInput.x, directionInput.z);
+                }else
+                {
+                    // If character on the curve floor 
+                    AirMove(characterTransform,directionInput.x,directionInput.z);
+                }
             } else
             {
                 AirMove(characterTransform,directionInput.x,directionInput.z);
@@ -86,6 +101,24 @@ namespace Quake3MovementStyle
                 return true;
             } else
             {
+                return false;
+            }
+        }
+
+        public bool IsCharacterGrounded(Transform characterTransform) // custom check is character on the ground.
+        {
+            // create a raycast up to check if character can stand up
+            bool raycastHit = Physics.Raycast(characterTransform.localPosition, Vector3.down, _crouchHeight * 1.17f); // from 1.17 How easy bhop will be
+            //Debug.DrawRay(characterTransform.localPosition, Vector3.down * (_crouchHeight * 0.02f));
+
+            if (raycastHit) // if is a collider up to a character
+            {
+                //Debug.Log(true);
+                return true;
+            }
+            else
+            {
+                //Debug.Log(false);
                 return false;
             }
         }

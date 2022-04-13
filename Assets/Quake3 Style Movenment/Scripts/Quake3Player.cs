@@ -59,6 +59,8 @@ namespace Quake3MovementStyle
             {
                 _quake3HoldAndDropObjects.CheckForPickUpObject(transform); // pick up objects
             }
+
+            
         }
     }
 }

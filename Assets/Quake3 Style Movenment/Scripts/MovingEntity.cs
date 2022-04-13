@@ -66,11 +66,13 @@ namespace Quake3MovementStyle
 
         private void ControlCharacterHeadBob()
         {
-            if (_characterController.isGrounded)
+            if (_characterMovement.IsCharacterGrounded(_characterTransform))
             {
                 _characterHeadBob.HeadBob(_characterTransform, _cameraTransform, transform.InverseTransformVector(_characterMovement.Speed)); // speed from world to local
             }
         }
+
+        // --- Check if on the ground
 
         
     }
