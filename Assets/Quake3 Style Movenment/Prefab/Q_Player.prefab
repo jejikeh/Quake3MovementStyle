@@ -119,7 +119,7 @@ MonoBehaviour:
     MaxSpeed: 2
     Acceleration: 60
     Deceleration: 60
-  _frictionRunning: 6
+  _frictionRunning: 10
   _frictionCrouch: 2
   _gravity: 15
   _jumpForce: 5

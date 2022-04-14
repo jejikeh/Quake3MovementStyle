@@ -952,14 +952,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Q_Player
       objectReference: {fileID: 0}
-    - target: {fileID: 791834039351323563, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
-      propertyPath: _rotateSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 791834039351323563, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
-      propertyPath: _rotateMovementSpeed
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 791834039351323600, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
       propertyPath: _movementHeadRotationForce
       value: 10
@@ -1008,13 +1000,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 791834039351323605, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
-      propertyPath: _isHeadBobing
-      value: 1
+    - target: {fileID: 941544165874113222, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
+      propertyPath: _throwForce
+      value: 1000
       objectReference: {fileID: 0}
-    - target: {fileID: 791834039351323606, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
-      propertyPath: _frictionRunning
-      value: 10
+    - target: {fileID: 941544165874113222, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
+      propertyPath: _pickUpRange
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3468450258816322446, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
       propertyPath: m_Center.y
@@ -1023,6 +1015,14 @@ PrefabInstance:
     - target: {fileID: 3468450258816322446, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
       propertyPath: m_IsTrigger
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5046491239608245183, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 5555841440226357106, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8586778403975338756, guid: 5cf617b4657ead74cab0f0cfda42f06b, type: 3}
       propertyPath: m_IsTrigger

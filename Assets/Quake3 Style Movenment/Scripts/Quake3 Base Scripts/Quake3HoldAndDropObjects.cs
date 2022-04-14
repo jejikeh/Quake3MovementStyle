@@ -7,17 +7,20 @@ namespace Quake3MovementStyle
     public class Quake3HoldAndDropObjects : MonoBehaviour
     {
         [SerializeField] private float _pickUpRange = 2f;
+        [SerializeField] private float _throwForce = 2f;
+
         [SerializeField] private Transform _holdTransform;
         private Transform _holdedObject;
 
         public void CheckForPickUpObject(Transform cameraTransform)
         {
             
-            
+            // if not already holding object
             if (_holdedObject == null)
             {
                 RaycastHit hit;
-                if (Physics.Raycast(cameraTransform.position, transform.forward, out hit, _pickUpRange))
+                // Check if in the center of camera is pickable object
+                if (Physics.Raycast(cameraTransform.position, cameraTransform.forward, out hit, _pickUpRange))
                 {
                     PickUpObject(hit.transform.transform);
                 }
@@ -36,7 +39,15 @@ namespace Quake3MovementStyle
         {
             if(Vector3.Distance(_holdedObject.transform.position, _holdTransform.position) > 0.1f)
             {
-                _holdedObject.position = _holdTransform.position;
+                _holdedObject.GetComponent<Rigidbody>().AddForce((_holdTransform.position - _holdedObject.transform.position) * 100f);
+            }
+        }
+
+        private void Update()
+        {
+            if (_holdedObject != null)
+            {
+                MovePickUpObject();
             }
         }
 
@@ -47,8 +58,6 @@ namespace Quake3MovementStyle
                 pickObject.GetComponent<Rigidbody>().useGravity = false;
                 pickObject.GetComponent<Rigidbody>().drag = 10;
                 pickObject.GetComponent<Rigidbody>().freezeRotation = true;
-                pickObject.GetComponent<Rigidbody>().isKinematic = true;
-                pickObject.GetComponent<BoxCollider>().isTrigger = true;
                 pickObject.parent = _holdTransform;
                 _holdedObject = pickObject;
             }
@@ -59,10 +68,17 @@ namespace Quake3MovementStyle
             _holdedObject.GetComponent<Rigidbody>().useGravity = true;
             _holdedObject.GetComponent<Rigidbody>().drag = 1;
             _holdedObject.GetComponent<Rigidbody>().freezeRotation = false;
-            _holdedObject.GetComponent<Rigidbody>().isKinematic = false;
-            _holdedObject.GetComponent<BoxCollider>().isTrigger = false;
             _holdedObject.parent = null;
             _holdedObject = null;
+        }
+
+        public void ThrowObject(Transform cameraTransform)
+        {
+            if(_holdedObject != null)
+            {
+                _holdedObject.GetComponent<Rigidbody>().AddForce(cameraTransform.forward * _throwForce);
+                DropObject();
+            }
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Quake3MovementStyle
         private Vector2 _mouseInput; // Mouse 2D Input Vector
         private Vector3 _keyboardInput;
 
+
+        // Hold And Drop component
         [SerializeField] private Quake3HoldAndDropObjects _quake3HoldAndDropObjects;
 
 
@@ -57,7 +59,11 @@ namespace Quake3MovementStyle
             // --- Pick up Event ---
             if (Input.GetKeyDown(KeyCode.E))
             {
-                _quake3HoldAndDropObjects.CheckForPickUpObject(transform); // pick up objects
+                _quake3HoldAndDropObjects.CheckForPickUpObject(_cameraTransform); // pick up objects
+            } 
+            if (Input.GetButtonDown("Fire1"))
+            {
+                _quake3HoldAndDropObjects.ThrowObject(_cameraTransform);
             }
 
             

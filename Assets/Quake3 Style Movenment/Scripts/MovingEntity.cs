@@ -16,7 +16,7 @@ namespace Quake3MovementStyle
 
 
         [Header("Rotate")]
-        [SerializeField] private Transform _cameraTransform;
+        [SerializeField] protected Transform _cameraTransform;
         [SerializeField] protected Quake3Rotation _characterRotation;
         [SerializeField] private bool _isHeadBobing;
 
