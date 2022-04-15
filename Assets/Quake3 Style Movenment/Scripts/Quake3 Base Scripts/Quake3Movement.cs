@@ -9,9 +9,9 @@ namespace Quake3MovementStyle
     public class Quake3Movement : MonoBehaviour
     {
         // System variables
-        private Vector3 _characterVelocity = Vector3.zero;
-        private bool _isJump = false;
-        private bool _isCrouch = false;
+        private Vector3 _characterVelocity = Vector3.zero; // Curent character velocity
+        private bool _isJump = false; // is jump
+        private bool _isCrouch = false; // is crouch
 
 
         [System.Serializable]
@@ -29,9 +29,16 @@ namespace Quake3MovementStyle
             }
         }
 
+        // movement settings while on the ground
         [SerializeField] private _movementSettings _groundMovementSettings = new _movementSettings(0, 0, 0);
+
+        // movement settings while on the crouch
         [SerializeField] private _movementSettings _crouchMovementSettings = new _movementSettings(0, 0, 0);
+        
+        // movement settings while in air 
         [SerializeField] private _movementSettings _airMovementSettings = new _movementSettings(0, 0, 0);
+        
+        // movemnt settings while in air and strafe
         [SerializeField] private _movementSettings _strafeMovementSettings = new _movementSettings(0, 0, 0);
 
 
@@ -56,6 +63,7 @@ namespace Quake3MovementStyle
 
         public void Movement(CharacterController characterController,Transform characterTransform ,Vector3 directionInput)
         {
+
             if (characterController.isGrounded) // Combination with default unity method and Custom
             {
                 /*
