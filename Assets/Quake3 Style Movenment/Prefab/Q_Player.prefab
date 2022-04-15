@@ -154,7 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf3acb9afb709d34887c7c3106f42c68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _pickUpRange: 2
+  _pickUpRange: 4
+  _throwForce: 1000
   _holdTransform: {fileID: 5555841440226357106}
 --- !u!1 &791834040168999525
 GameObject:
