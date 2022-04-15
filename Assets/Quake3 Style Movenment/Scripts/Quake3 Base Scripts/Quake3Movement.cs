@@ -63,7 +63,6 @@ namespace Quake3MovementStyle
                  * Custom method ( IsCharacterGrounded ) draw ray to ground from center. It return true only when 100% character on the ground
                  * 
                  */
-
                 if (IsCharacterGrounded(characterTransform))
                 {
                     // If character 100% on the ground
@@ -71,7 +70,8 @@ namespace Quake3MovementStyle
                 }else
                 {
                     // If character on the curve floor 
-                    AirMove(characterTransform,directionInput.x,directionInput.z);
+                    //GroundMove(characterController,characterTransform, directionInput.x, directionInput.z);
+                    SurfMove(characterTransform,directionInput.x,directionInput.z);
                 }
             } else
             {
@@ -169,6 +169,54 @@ namespace Quake3MovementStyle
                 _characterVelocity.y = _jumpForce;
                 _isJump = false;
             }            
+        }
+
+        private void SurfMove(Transform _characterTransform, float xInput, float zInput)
+        {
+
+            // Copy paste from airmovement but without gravity 
+
+            float acceleration;
+            Vector3 wishDir = new Vector3(xInput, 0, zInput);
+            wishDir = _characterTransform.TransformDirection(wishDir);
+
+            float wishSpeed = wishDir.magnitude;
+            wishSpeed *= _airMovementSettings.MaxSpeed;
+
+            wishDir.Normalize();
+            // !!
+            if (Vector3.Dot(_characterVelocity, wishDir) < 0) // If in air wishDir changes
+            {
+                acceleration = _airMovementSettings.Deceleration;
+            }
+            else
+            {
+                acceleration = _airMovementSettings.Acceleration;
+            }
+
+            if (xInput == 0 && zInput != 0)
+            {
+                if (wishSpeed > _strafeMovementSettings.MaxSpeed)
+                {
+                    wishSpeed = _strafeMovementSettings.MaxSpeed;
+                }
+                acceleration = _strafeMovementSettings.MaxSpeed;
+            }
+
+            Accelerate(wishDir, wishSpeed, acceleration);
+            if (_airControl > 0)
+            {
+                AirControl(wishDir, xInput, zInput, wishSpeed);
+            }
+
+            if (_isJump) // Jump only when on the ground
+            {
+                _characterVelocity.y = _jumpForce;
+                _isJump = false;
+            }
+
+            // Remove Gravity when on surf
+
         }
 
         private void AirMove(Transform _characterTransform,float xInput, float zInput)
