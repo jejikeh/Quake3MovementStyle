@@ -124,6 +124,7 @@ MonoBehaviour:
     MaxSpeed: 6
     Acceleration: 2
     Deceleration: 2
+  _speedToStartSurf: 8
   _frictionRunning: 10
   _frictionCrouch: 2
   _gravity: 15
@@ -179,6 +180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _createPoint: {fileID: 5555841440226357106}
+  _cameraTransform: {fileID: 0}
   _boxPrefab: {fileID: 5641832349112372936, guid: 714bb27d5b390644ab182d41cf8829ee, type: 3}
   _boxSpawnKey: 9
   _playerPrefab: {fileID: 791834039351323562}
@@ -389,7 +391,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5046491239608245183}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &101533534540619305
 MeshRenderer:
   m_ObjectHideFlags: 0

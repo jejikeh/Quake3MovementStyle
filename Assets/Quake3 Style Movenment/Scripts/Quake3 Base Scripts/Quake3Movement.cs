@@ -85,7 +85,7 @@ namespace Quake3MovementStyle
                     
                     if(_characterVelocity.magnitude > _speedToStartSurf)
                     {
-                        SurfMove(characterTransform,directionInput.x,directionInput.z);
+                        SurfMove(characterController,characterTransform,directionInput.x,directionInput.z);
                     } else
                     {
                         GroundMove(characterController, characterTransform, directionInput.x, directionInput.z);
@@ -191,14 +191,14 @@ namespace Quake3MovementStyle
             }            
         }
 
-        private void SurfMove(Transform _characterTransform, float xInput, float zInput)
+        private void SurfMove(CharacterController characterController,Transform characterTransform, float xInput, float zInput)
         {
 
             // Copy paste from airmovement but without gravity 
 
             float acceleration;
             Vector3 wishDir = new Vector3(xInput, 0, zInput);
-            wishDir = _characterTransform.TransformDirection(wishDir);
+            wishDir = characterTransform.TransformDirection(wishDir);
 
             float wishSpeed = wishDir.magnitude;
             wishSpeed *= _surfMovementSettings.MaxSpeed;
@@ -235,15 +235,20 @@ namespace Quake3MovementStyle
                 _isJump = false;
             }
 
+            if(_characterVelocity.magnitude < _speedToStartSurf)
+            {
+                GroundMove(characterController, characterTransform, xInput, zInput);
+            }
+
             // Remove Gravity when on surf
 
         }
 
-        private void AirMove(Transform _characterTransform,float xInput, float zInput)
+        private void AirMove(Transform characterTransform,float xInput, float zInput)
         {
             float acceleration;
             Vector3 wishDir = new Vector3(xInput, 0, zInput);
-            wishDir = _characterTransform.TransformDirection(wishDir);
+            wishDir = characterTransform.TransformDirection(wishDir);
 
             float wishSpeed = wishDir.magnitude;
             wishSpeed *= _airMovementSettings.MaxSpeed;

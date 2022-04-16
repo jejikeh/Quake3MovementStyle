@@ -61,7 +61,7 @@ namespace Quake3MovementStyle
             }
         }
 
-        private void PickUpObject(Transform pickObject)
+        internal void PickUpObject(Transform pickObject)
         {
             if (pickObject.GetComponent<Rigidbody>())
             {
@@ -76,7 +76,7 @@ namespace Quake3MovementStyle
             }
         }
 
-        private void DropObject()
+        internal void DropObject()
         {
             _holdedObject.GetComponent<Rigidbody>().useGravity = true;
             _holdedObject.GetComponent<Rigidbody>().drag = 1;
