@@ -7,7 +7,7 @@ public class DebugPlayer : MonoBehaviour
 {
     [Header("Spawn Objects")]
     [SerializeField] private GameObject _createPoint;
-    [Header("Box")]
+    [Header("Default Cube")]
     [SerializeField] private GameObject _boxPrefab;
     [SerializeField] private KeyCode _boxSpawnKey;
     [Header("Player")]
