@@ -41,7 +41,10 @@ namespace Quake3MovementStyle
         // movemnt settings while in air and strafe
         [SerializeField] private _movementSettings _strafeMovementSettings = new _movementSettings(0, 0, 0);
 
+        [SerializeField] private _movementSettings _surfMovementSettings = new _movementSettings(0, 0, 0);
+        [SerializeField] private float _speedToStartSurf = 8f;
 
+        
 
 
 
@@ -77,9 +80,16 @@ namespace Quake3MovementStyle
                     GroundMove(characterController,characterTransform, directionInput.x, directionInput.z);
                 }else
                 {
-                    // If character on the curve floor 
+                    // If character on the curve floor and speed enough to start surf
                     //GroundMove(characterController,characterTransform, directionInput.x, directionInput.z);
-                    SurfMove(characterTransform,directionInput.x,directionInput.z);
+                    
+                    if(_characterVelocity.magnitude > _speedToStartSurf)
+                    {
+                        SurfMove(characterTransform,directionInput.x,directionInput.z);
+                    } else
+                    {
+                        GroundMove(characterController, characterTransform, directionInput.x, directionInput.z);
+                    }
                 }
             } else
             {
@@ -116,10 +126,12 @@ namespace Quake3MovementStyle
         public bool IsCharacterGrounded(Transform characterTransform) // custom check is character on the ground.
         {
             // create a raycast up to check if character can stand up
-            bool raycastHit = Physics.Raycast(characterTransform.localPosition, Vector3.down, _crouchHeight * 1.17f); // from 1.17 How easy bhop will be
+            bool raycastHitCenter = Physics.Raycast(characterTransform.localPosition, Vector3.down, _crouchHeight * 1.17f); // from 1.17 How easy bhop will be
             //Debug.DrawRay(characterTransform.localPosition, Vector3.down * (_crouchHeight * 0.02f));
+            bool raycastHitLeft = Physics.Raycast(characterTransform.localPosition, Vector3.down, _crouchHeight * 1.17f); // from 1.17 How easy bhop will be
 
-            if (raycastHit) // if is a collider up to a character
+
+            if (raycastHitCenter) // if is a collider up to a character
             {
                 //Debug.Log(true);
                 return true;
@@ -189,17 +201,17 @@ namespace Quake3MovementStyle
             wishDir = _characterTransform.TransformDirection(wishDir);
 
             float wishSpeed = wishDir.magnitude;
-            wishSpeed *= _airMovementSettings.MaxSpeed;
+            wishSpeed *= _surfMovementSettings.MaxSpeed;
 
             wishDir.Normalize();
             // !!
             if (Vector3.Dot(_characterVelocity, wishDir) < 0) // If in air wishDir changes
             {
-                acceleration = _airMovementSettings.Deceleration;
+                acceleration = _surfMovementSettings.Deceleration;
             }
             else
             {
-                acceleration = _airMovementSettings.Acceleration;
+                acceleration = _surfMovementSettings.Acceleration;
             }
 
             if (xInput == 0 && zInput != 0)

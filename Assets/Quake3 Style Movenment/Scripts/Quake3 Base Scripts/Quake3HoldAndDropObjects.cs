@@ -10,7 +10,17 @@ namespace Quake3MovementStyle
         [SerializeField] private float _throwForce = 2f;
 
         [SerializeField] private Transform _holdTransform;
+        [SerializeField] private Vector3 _holdDefaultPosition;
+
+
+        [Header("Mouse Wheel Settings")]
+        [SerializeField] private float _farDistance;
+        [SerializeField] private float _closeDistance;
+
+        [SerializeField] private float _wheelForce;
         private Transform _holdedObject;
+
+        public Vector3 GetHoldDefaultPosition { get { return _holdDefaultPosition; } }
 
         public void CheckForPickUpObject(Transform cameraTransform)
         {
@@ -60,6 +70,9 @@ namespace Quake3MovementStyle
                 //pickObject.GetComponent<Rigidbody>().freezeRotation = true;
                 pickObject.parent = _holdTransform;
                 _holdedObject = pickObject;
+
+                // Reset the _holdedTransform
+                _holdTransform.localPosition = _holdDefaultPosition;
             }
         }
 
@@ -70,6 +83,9 @@ namespace Quake3MovementStyle
             //_holdedObject.GetComponent<Rigidbody>().freezeRotation = false;
             _holdedObject.parent = null;
             _holdedObject = null;
+
+            // Reset the _holdedTransform
+            _holdTransform.localPosition = _holdDefaultPosition;
         }
 
         public void ThrowObject(Transform cameraTransform)
@@ -78,6 +94,35 @@ namespace Quake3MovementStyle
             {
                 _holdedObject.GetComponent<Rigidbody>().AddForce(cameraTransform.forward * _throwForce);
                 DropObject();
+            }
+        }
+
+        public void MoveHoldTransform(bool direction) // Add transform object by wheel only by Z coords
+        {
+            if (_holdedObject != null)
+            {
+
+                Vector3 tempPosition = _holdTransform.localPosition;
+                if (direction)
+                {
+                    if(tempPosition.z - _holdDefaultPosition.z < _farDistance)
+                    {
+                        tempPosition.z += _wheelForce; 
+                    }   
+                    // Reset the _holdedTransform
+ 
+                } else
+                {
+                    if (tempPosition.z - _holdDefaultPosition.z > _closeDistance)
+                    {
+                        tempPosition.z -= _wheelForce;
+                    }
+
+                    // Reset the _holdedTransform
+
+                }
+                _holdTransform.localPosition = tempPosition;
+
             }
         }
     }

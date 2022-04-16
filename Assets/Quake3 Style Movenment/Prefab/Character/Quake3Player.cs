@@ -66,7 +66,15 @@ namespace Quake3MovementStyle
                 _quake3HoldAndDropObjects.ThrowObject(_cameraTransform);
             }
 
-            
+            if(Input.mouseScrollDelta.y > 0)
+            {
+                _quake3HoldAndDropObjects.MoveHoldTransform(true);
+            }else if(Input.mouseScrollDelta.y < 0)
+            {
+                _quake3HoldAndDropObjects.MoveHoldTransform(false);
+            }
+
+
         }
     }
 }
